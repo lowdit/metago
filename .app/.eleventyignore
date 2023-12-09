@@ -1,0 +1,6 @@
+
+./node_modules/
+./README.md
+./../.app/dist/
+./../.app/node_modules/
+./../README.md

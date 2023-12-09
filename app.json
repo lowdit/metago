@@ -1,0 +1,16 @@
+{
+  "$schema": ".app/app.schema.json",
+  "title": "Liens Nature",
+  "description": "Liens Nature",
+  "editThisNote": {
+    "url": "https://github.com/bertrandkeller/liensnatures/edit/{{branch}}/{{file}}"
+  },
+  "sidebar": {
+    "links": [
+
+    ],
+    "notes": [
+
+    ]
+  }
+}

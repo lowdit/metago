@@ -1,0 +1,21 @@
+{
+  "lang": "fr",
+  "site": {
+    "title": "My wonderfull site",
+    "url": "https://myblog.com"
+  },
+  "author": {
+    "name": "My Name",
+    "email": "myemailaddress@example.com"
+  },
+  "websites": [
+    {
+      "name": "Douanes",
+      "url": "https://douanes--commando-ux.netlify.app/index.json"
+    },
+    {
+      "name": "DGFIP",
+      "url": "https://dgfip--commando-ux.netlify.app/index.json"
+    }
+  ]
+}

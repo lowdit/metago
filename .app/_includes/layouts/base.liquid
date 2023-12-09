@@ -1,0 +1,68 @@
+---
+panel: true
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- CSS -->
+
+  <!-- INLINE CSS-->
+
+  {%- if page.inputPath == "./index.html" -%}
+
+  {%- else -%}
+  <link rel="preload" href="/theme.css" as="style">
+  <link rel="stylesheet" href="/theme.css">
+  {%- endif -%}
+
+  <!-- SEO -->
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{% if page.description %}{{ page.description }} - {% endif %}{{ site.name }} - Audits qualité de sites web</title>
+  <meta name="description" content="{{ site.title }}" />
+  <meta name="robots" content="noindex">
+  <meta name="googlebot" content="noindex">
+
+  <meta name="subject" content="{{ site.subject }}">
+  <meta itemprop="name" content="{% if page.title %}{{ page.title }}{% endif %} | {% if page.description %}{{ page.description }} - {% endif %}{{ site.name }}">
+  <meta itemprop="description" content="{{ site.subject }}">
+  <meta name="robots" content="{{ site.robots }}">
+
+  <!-- Profiles -->
+  <link href="/humans.txt" rel="author" type="text/plain" />
+  <link rel="shortcut icon" href="/assets/favicons/favicon-96x96.png">
+  <link rel="apple-touch-icon" href="/assets/favicons/apple-icon-180x180.png">
+
+  <meta name="disabled-adaptations" content="watch" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#480602">
+
+  <meta property="og:site_name" content="DINUM" />
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+<body>
+  <div class="skip-links">
+    <a href="#main">Contenu principal</a>
+  </div>
+  <header role="banner">
+    <div class="wrapper flex align-items-center padding-baseline">
+        <div class="flex align-items-center">
+          <a href="/" title="Accueil - L’observatoire de la qualité des démarches en ligne" rel="home" class="navbar-brand">
+            <picture>
+              <source srcset="/assets/images/logodark.svg" media="(prefers-color-scheme: dark)" alt="Logo">
+              <img src="/assets/images/logo.svg" width="100" alt="Logo République française">
+            </picture>
+          </a>
+          <span class="demarches-titlebar-sitename"></span>
+        </div>
+    </div>
+  </header>
+  <main id="main" class="wrapper">
+    {{ content }}
+  </main>
+  <script>navigator.serviceWorker&&window.addEventListener("load",function(){navigator.serviceWorker.controller||navigator.serviceWorker.register("/sw.js",{scope:"/"})});</script>
+</body>
+</html>

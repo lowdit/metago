@@ -1,0 +1,104 @@
+---
+##layout: default
+pagination:
+    data: pages
+    size: 1
+    alias: pages
+permalink: "audits/{{ pages.siteslug }}/{{ pages.slug | slugify }}/"
+---
+
+{% assign result = site | where: "name", pages.sitename %}
+{% assign element = result[0].websites[pages.slug] %}
+{% assign counter = 0 %}
+{% for elm in element.audits.accessibility.scores %}
+    {% assign counter = counter | plus: 1 %}
+{% endfor %}
+
+
+<div class="wrapper narrow">
+<h1 class="text-center">{{ element.title }}</h1>
+
+<h2 class="text-center">Scores</h2>
+<h3 class="m-0">Accessibilité</h3>
+<div class="scores">
+  <ul>
+    <li class="counter text-center d-inline-block good"><span><b class="h2">{{ element.audits.accessibility.rgaa[0].score.compliance }}%</b><br>Critères conformes</span></li>
+    <li class="counter text-center d-inline-block bad"><span><b class="h2">{{ 100 | minus:element.audits.accessibility.rgaa[0].score.compliance }}%</b><br>Critères non conformes</span></li>
+  </ul>
+</div>
+
+{% if counter > 1 %}
+    <link rel="preload" href="/assets/js/frappe-charts.min.iife.js" as="script">
+    <script src="/assets/js/frappe-charts.min.iife.js"></script>
+    <script src="/assets/js/frappe-colors.js"></script>
+    <div id="chartaccessibility"></div>
+    <script>
+        const dataaccessibility = {
+            labels: [{% for elm in element.audits.accessibility.scores %}"{{ elm[1].url | slice: -14, 10 | date: "%d %b  %Y" }}"{% if forloop.last == false %},{% endif %}{% endfor %}],
+            datasets: [
+              {
+                name: "Conformité",
+                values: [{% for elm in element.audits.accessibility.scores %}"{{ elm[1].score.rgaa.compliance }}"{% if forloop.last == false %},{% endif %}{% endfor %}]
+              }
+            ],
+            yRegions: [{ label: "", start: 0, end: 100 }]
+        }
+        const chartaccessibility = new frappe.Chart("#chartaccessibility", {
+            title: "Taux de conformité dans le temps (en %)",
+            data: dataaccessibility,
+            type: 'bar',
+            height: 400,
+            lineOptions: {
+                regionFill: 1
+            },
+            truncateLegends: true,
+            colors: ["#2e72d2","#d22d64"]
+        })
+    </script>
+{% endif %}
+
+{% if element.audits.performance.scores[1] %}
+<h3 class="m-0">Performance</h3>
+<div class="scores">
+  <ul>
+    <li class="counter text-center d-inline-block"><span>Page chargée<br><b class="h2">{{ element.audits.performance.scores[counter].score.LCP | divided_by: 1000 | round: 2 }}s</b></span></li>
+    <li class="counter text-center d-inline-block"><span>Poids de la page<br><b class="h2">{{ element.audits.performance.scores[counter].score.pageweight | divided_by: 1024 | round }}kb</b></span></li>
+    <li class="counter text-center d-inline-block"><span>Éléments sur la page<br><b class="h2">{{ element.audits.performance.scores[counter].score.domsize }}</b></span></li>
+    <li class="counter text-center d-inline-block"><span>Nombre de requêtes<br><b class="h2">{{ element.audits.performance.scores[counter].score.requests }}</b></span></li>
+  </ul>
+</div>
+
+<h3 class="m-0">Écoindex</h3>
+<div class="scores">
+  <ul>
+    <li class="counter text-center good"><span>Score<br><b class="h2">{{ element.audits.performance.scores[counter].score.ecoindex }}</b></span></li>
+    <li class="counter text-center"><span>Eau (cl)<br><b class="h2">{{ element.audits.performance.scores[counter].score.eau | round: 2 }}</b></span></li>
+    <li class="counter text-center"><span>GES (gCO2e)<br><b class="h2">{{ element.audits.performance.scores[counter].score.co2 | round: 2 }}</b></span></li>
+  </ul>
+</div>
+{% if counter > 1 %}
+<div id="chartperformance"></div>
+<script>
+    const dataperformance = {
+        labels: [{% for elm in element.audits.accessibility.scores %}"{{ elm[1].url | slice: -14, 10 | date: "%d %b  %Y" }}"{% if forloop.last == false %},{% endif %}{% endfor %}],
+        datasets: [
+          {
+            name: "Chargement",
+            values: [{% for elm in element.audits.performance.scores %}"{{ elm[1].score.LCP | divided_by: 1000 | round: 2 }}"{% if forloop.last == false %},{% endif %}{% endfor %}],
+            chartType: 'line'
+          }
+        ],
+        yRegions: [{ label: "", start: 0, end: 30 }]
+    }
+    const chartperformance = new frappe.Chart("#chartperformance", {
+        title: "Temps de chargement",
+        data: dataperformance,
+        type: 'axis-mixed',
+        height: 300,
+        truncateLegends: true,
+        colors: ["#2e72d2","#d22d64"]
+    })
+</script>
+{% endif %}
+</div>
+{% endif %}

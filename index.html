@@ -1,0 +1,15 @@
+---
+title: "Bienvenue"
+panel: false
+---
+
+<h1 class="text-center">Observatoire de l’accessibilité</h1>
+<ul class="list-unstyled p-1">
+{% for website in site reversed %}
+<li>
+  <a class="card-inline card-shadow" href="/audits/{{ website.name | slugify }}">
+    <h2 class="h3">{{ website.name }}</h2>
+  </a>
+</li>
+{% endfor %}
+</ul>

@@ -1,0 +1,72 @@
+@use "sass:map";
+@use "./../2-lib/tokens.scss";
+@use "./../1-tokens/tokens-core.scss";
+@use "./../1-tokens/tokens-color.scss";
+
+$color: null !default;
+
+:root {
+  @include tokens.build(tokens-core.$tokens);
+  @include tokens.build(tokens-color.build($color, $dark: false));
+}
+
+body {
+  &[data-theme="dark"] {
+    @include tokens.build(tokens-color.build($color, $dark: true));
+  }
+
+  &[data-theme="system"] {
+    @media (prefers-color-scheme: dark) {
+      @include tokens.build(tokens-color.build($color, $dark: true));
+    }
+  }
+}
+
+.grid {
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 150px;
+  gap: 0.5em;
+}
+
+.stack.grid > * {
+  --stack: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5em !important;
+  border: 1px solid #4631d4;
+}
+
+.stack.grid a {
+  color: var(--color-primary-text) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1em;
+  width: 100%;
+  height: 100%;
+  min-height: 90px;
+  font-weight: bold;
+  text-align: center;
+}
+
+@media (min-width: 480px) {
+  .stack.grid {
+    display: grid;
+  }
+}
+
+@media (min-width: 768px) {
+  .stack.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .stack.grid > * {
+    margin: 0;
+  }
+}
+
+.stack.grid a:hover {
+  color: #000 !important;
+  background: rgba(70, 49, 212, 0.1);
+}

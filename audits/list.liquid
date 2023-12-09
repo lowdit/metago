@@ -1,0 +1,27 @@
+---
+##layout: base
+pagination:
+    data: site
+    size: 1
+    alias: site
+permalink: "audits/{{ site.name | slugify }}/"
+---
+<h1 class="text-center">{{ site.name }}</h1>
+<ul class="list-unstyled p-1">
+{% for item in site.websites %}
+  <li>
+    {% if item[1].audits.accessibility.rgaa[0].score %}<a class="card-inline card-shadow" href="/audits/{{ site.name | slugify }}/{{ item[0] | slugify }}/">
+      <h2 class="h3">{{ item[1].title }}</h2>
+      <div class="flex flex-gap align-items-center text-center"><p class="mb-0">
+      <small class="text-center d-block p-relative">
+        <b class="h3">{{ item[1].audits.accessibility.rgaa[0].score.compliance }}%</b>
+        <br>de&nbsp;conformité
+        <span class="p-absolute p-top p-right badge bad d-inline-block">
+          {{ item[1].audits.accessibility.rgaa[0].score.criteria.total }}
+        </span></small>
+      </p>
+      </div>
+    </a>{% endif %}
+  </li>
+{% endfor %}
+</ul>
